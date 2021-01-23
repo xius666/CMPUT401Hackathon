@@ -7,15 +7,7 @@
   <link rel="stylesheet" href="{% static 'style/style.css' %}" />
   <link rel="stylesheet" href="{% static 'style/select_box.css' %}" />
 
-    <form class="box">
-      <select name="drop1">
-        <option disable="true" , selected>---select a country---</option>
-        {% for c in country_list %}
-        <option>{{ c|slice:"1:-1" }}</option>
-        {% endfor %}
-      </select>
-      <input type="submit" value="click" />
-    </form>
+
   <title>COVID-19 TRACKER</title>
 </head>
 
@@ -66,12 +58,11 @@
   </div>
 
   <form class="box">
-    <select name="drop1" , id="country_selection" , onchange=drop_down_onchange()>
-      <option value="canada" , selected>Canada</option>
-      <option value="china">China</option>
-      <option value="usa">United States</option>
-      <option value="india">India</option>
-      <option value="france">France</option>
+    <select name="drop1">
+      <option disable="true" , selected>---select a country---</option>
+      {% for c in country_list %}
+      <option>{{ c|slice:"1:-1" }}</option>
+      {% endfor %}
     </select>
     <input type="submit" value="click" />
   </form>
