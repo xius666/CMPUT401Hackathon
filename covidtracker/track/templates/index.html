@@ -7,15 +7,28 @@
   <link rel="stylesheet" href="{% static 'style/style.css' %}" />
   <link rel="stylesheet" href="{% static 'style/select_box.css' %}" />
 
+
   <title>COVID-19 TRACKER</title>
 </head>
 
 <body>
   <script>
-    console.log('haha')
-    let country = 'canada'
     function drop_down_onchange() {
-      country = document.getElementById('country_selection').value
+      let country = document.getElementById('country_selection').value
+      console.log(country)
+      let cards = document.getElementsByClassName('small')
+      cards[0].innerText = 'Loading...'
+      cards[1].innerText = 'Loading...'
+      cards[2].innerText = 'Loading...'
+      cards[3].innerText = 'Loading...'
+
+      country = (country === null
+        || country == '>---select a country---')
+        ? fetch_data_by_country('canada')
+        : fetch_data_by_country(country)
+    }
+
+    function fetch_data_by_country(country) {
       fetch("https://covid19-api.com/country?name=" + country + "&format=json", {
         "method": "GET",
         "headers": {
@@ -36,19 +49,19 @@
         });
     }
 
-    fetch("https://covid19-api.com/country/all?format=json", {
-      "method": "GET",
-      "headers": {
-      }
-    })
-      .then(response => {
-        response.json().then(data => {
-          console.log(data)
-        })
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    // fetch("https://covid19-api.com/country/all?format=json", {
+    //   "method": "GET",
+    //   "headers": {
+    //   }
+    // })
+    //   .then(response => {
+    //     response.json().then(data => {
+    //       console.log(data)
+    //     })
+    //   })
+    //   .catch(err => {
+    //     console.error(err);
+    //   });
 
   </script>
 
@@ -57,14 +70,11 @@
   </div>
 
   <form class="box">
-    <select name="drop1" , id="country_selection" , onchange=drop_down_onchange()>
-      <option value="canada" , selected>Canada</option>
-      <option value="china">China</option>
-      <option value="usa">United States</option>
-      <option value="india">India</option>
-      <option value="france">France</option>
+    <select name="drop1" , onchange=drop_down_onchange() id="country_selection">
+      {% for c in country_list %}
+      <option>{{ c|slice:"1:-1" }}</option>
+      {% endfor %}
     </select>
-    <input type="submit" value="click" />
   </form>
 
   <div class="container">
@@ -112,6 +122,7 @@
     </a> -->
   </div>
   <script>
+    document.getElementById('country_selection').value = 'Canada'
     drop_down_onchange()
   </script>
 </body>
