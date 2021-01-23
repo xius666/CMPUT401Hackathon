@@ -2,16 +2,10 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="{% static 'style/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'style/select_box.css' %}" />
 
-    <title>COVID-19 TRACKER</title>
-  </head>
-  <body>
-    <div class="title">
-      <h1>COVID-19 LIVE NUMBER FOR {{country}}</h1>
-    </div>
+<head>
+  <link rel="stylesheet" href="{% static 'style/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'style/select_box.css' %}" />
 
     <form class="box">
       <select name="drop1">
@@ -41,10 +35,11 @@
         <h3>New cases</h3>
         <p class="small">{{new}}</p>
 
-        <div class="go-corner" href="#">
-          <div class="go-arrow">→</div>
-        </div>
-      </a>
+
+
+  <div class="title">
+    <h1>COVID-19 LIVE NUMBER FOR {{country}}</h1>
+  </div>
 
       <a class="card3" href="#">
         <h3>Critical condition</h3>
@@ -74,3 +69,4 @@
     </div>
   </body>
 </html>
+
