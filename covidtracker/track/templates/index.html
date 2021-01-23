@@ -36,6 +36,20 @@
         });
     }
 
+    fetch("https://covid19-api.com/country/all?format=json", {
+      "method": "GET",
+      "headers": {
+      }
+    })
+      .then(response => {
+        response.json().then(data => {
+          console.log(data)
+        })
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
   </script>
 
   <div class="title">
@@ -43,10 +57,10 @@
   </div>
 
   <form class="box">
-    <select name="drop1" , id="country_selection", onchange = drop_down_onchange()>
+    <select name="drop1" , id="country_selection" , onchange=drop_down_onchange()>
       <option value="canada" , selected>Canada</option>
       <option value="china">China</option>
-      <option value="america">America</option>
+      <option value="usa">United States</option>
       <option value="india">India</option>
       <option value="france">France</option>
     </select>
@@ -56,7 +70,7 @@
   <div class="container">
     <a class="card1" href="https://www.cdc.gov/coronavirus/2019-nCoV/index.html">
       <h3>Total Confirmed</h3>
-      <p class="small">+50</p>
+      <p class="small">Loading...</p>
       <div class="go-corner" href="#">
         <div class="go-arrow">→</div>
       </div>
@@ -64,7 +78,7 @@
 
     <a class="card2" href="#">
       <h3>Critical</h3>
-      <p class="small" >+100</p>
+      <p class="small">Loading...</p>
       <div class="go-corner" href="#">
         <div class="go-arrow">→</div>
       </div>
@@ -72,7 +86,7 @@
 
     <a class="card3" href="#">
       <h3>Death</h3>
-      <p class="small">+100</p>
+      <p class="small">Loading...</p>
       <div class="dimmer"></div>
       <div class="go-corner" href="#">
         <div class="go-arrow">→</div>
@@ -81,7 +95,7 @@
 
     <a class="card4" href="#">
       <h3>Total Recovered</h3>
-      <p class="small">+100</p>
+      <p class="small">Loading...</p>
       <div class="dimmer"></div>
       <div class="go-corner" href="#">
         <div class="go-arrow">→</div>
