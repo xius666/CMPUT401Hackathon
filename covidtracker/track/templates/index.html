@@ -2,75 +2,104 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="{% static 'style/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'style/select_box.css' %}" />
 
-    <title>COVID-19 TRACKER</title>
-  </head>
-  <body>
-    <div class="title">
-      <h1>COVID-19 LIVE NUMBER FOR {{country}}</h1>
-    </div>
+<head>
+  <link rel="stylesheet" href="{% static 'style/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'style/select_box.css' %}" />
 
-    <form class="box">
-      <select name="drop1">
-        <option disable="true" , selected>---select a country---</option>
-        <option>Canada</option>
-        <option>China</option>
-        <option>America</option>
-        <option>India</option>
-        <option>France</option>
-      </select>
-      <input type="submit" value="click" />
-    </form>
+  <title>COVID-19 TRACKER</title>
+</head>
 
-    <div class="container">
-      <a
-        class="card1"
-        href="https://www.cdc.gov/coronavirus/2019-nCoV/index.html"
-      >
-        <h3>All cases</h3>
-        <p class="small">+50</p>
-        <div class="go-corner" href="#">
-          <div class="go-arrow">→</div>
-        </div>
-      </a>
+<body>
+  <script>
+    console.log('haha')
+    let country = 'canada'
+    function drop_down_onchange() {
+      country = document.getElementById('country_selection').value
+      fetch("https://covid19-api.com/country?name=" + country + "&format=json", {
+        "method": "GET",
+        "headers": {
+        }
+      })
+        .then(response => {
+          response.json().then(data => {
+            console.log(data)
+            let cards = document.getElementsByClassName('small')
+            cards[0].innerText = data[0].confirmed
+            cards[1].innerText = data[0].critical
+            cards[2].innerText = data[0].deaths
+            cards[3].innerText = data[0].recovered
+          })
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
 
-      <a class="card2" href="#">
-        <h3>New cases</h3>
-        <p class="small">+100</p>
+  </script>
 
-        <div class="go-corner" href="#">
-          <div class="go-arrow">→</div>
-        </div>
-      </a>
+  <div class="title">
+    <h1>COVID-19 LIVE NUMBER FOR {{country}}</h1>
+  </div>
 
-      <a class="card3" href="#">
-        <h3>Death</h3>
-        <p class="small">+100</p>
-        <div class="dimmer"></div>
-        <div class="go-corner" href="#">
-          <div class="go-arrow">→</div>
-        </div>
-      </a>
+  <form class="box">
+    <select name="drop1" , id="country_selection", onchange = drop_down_onchange()>
+      <option value="canada" , selected>Canada</option>
+      <option value="china">China</option>
+      <option value="america">America</option>
+      <option value="india">India</option>
+      <option value="france">France</option>
+    </select>
+    <input type="submit" value="click" />
+  </form>
 
-      <a class="card4" href="#">
-        <h3>Critical condition</h3>
-        <p class="small">+100</p>
-        <div class="dimmer"></div>
-        <div class="go-corner" href="#">
-          <div class="go-arrow">→</div>
-        </div>
-      </a>
-      <a class="card5" href="#">
-        <h3>Recovered</h3>
-        <p class="small">+100</p>
-        <div class="dimmer"></div>
-        <div class="go-corner" href="#">
-          <div class="go-arrow">→</div>
-        </div>
-      </a>
-    </div>
-  </body>
+  <div class="container">
+    <a class="card1" href="https://www.cdc.gov/coronavirus/2019-nCoV/index.html">
+      <h3>Total Confirmed</h3>
+      <p class="small">+50</p>
+      <div class="go-corner" href="#">
+        <div class="go-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card2" href="#">
+      <h3>Critical</h3>
+      <p class="small" >+100</p>
+      <div class="go-corner" href="#">
+        <div class="go-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card3" href="#">
+      <h3>Death</h3>
+      <p class="small">+100</p>
+      <div class="dimmer"></div>
+      <div class="go-corner" href="#">
+        <div class="go-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card4" href="#">
+      <h3>Total Recovered</h3>
+      <p class="small">+100</p>
+      <div class="dimmer"></div>
+      <div class="go-corner" href="#">
+        <div class="go-arrow">→</div>
+      </div>
+    </a>
+
+    <!-- <a class="card5" href="#">
+      <h3>Recovered</h3>
+      <p class="small">+100</p>
+      <div class="dimmer"></div>
+      <div class="go-corner" href="#">
+        <div class="go-arrow">→</div>
+      </div>
+    </a> -->
+  </div>
+  <script>
+    drop_down_onchange()
+  </script>
+</body>
+
 </html>
