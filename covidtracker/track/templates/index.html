@@ -18,7 +18,7 @@
         <option disable="true" , selected>---select a country---</option>
         <option>Canada</option>
         <option>China</option>
-        <option>America</option>
+        <option>USA</option>
         <option>India</option>
         <option>France</option>
       </select>
@@ -31,7 +31,7 @@
         href="https://www.cdc.gov/coronavirus/2019-nCoV/index.html"
       >
         <h3>All cases</h3>
-        <p class="small">+50</p>
+        <p class="small">{{total}}</p>
         <div class="go-corner" href="#">
           <div class="go-arrow">→</div>
         </div>
@@ -39,7 +39,7 @@
 
       <a class="card2" href="#">
         <h3>New cases</h3>
-        <p class="small">+100</p>
+        <p class="small">{{new}}</p>
 
         <div class="go-corner" href="#">
           <div class="go-arrow">→</div>
@@ -47,8 +47,8 @@
       </a>
 
       <a class="card3" href="#">
-        <h3>Death</h3>
-        <p class="small">+100</p>
+        <h3>Critical condition</h3>
+        <p class="small">{{critical}}</p>
         <div class="dimmer"></div>
         <div class="go-corner" href="#">
           <div class="go-arrow">→</div>
@@ -56,8 +56,8 @@
       </a>
 
       <a class="card4" href="#">
-        <h3>Critical condition</h3>
-        <p class="small">+100</p>
+        <h3>Active cases</h3>
+        <p class="small">{{active}}</p>
         <div class="dimmer"></div>
         <div class="go-corner" href="#">
           <div class="go-arrow">→</div>
@@ -65,7 +65,7 @@
       </a>
       <a class="card5" href="#">
         <h3>Recovered</h3>
-        <p class="small">+100</p>
+        <p class="small">{{recovered}}</p>
         <div class="dimmer"></div>
         <div class="go-corner" href="#">
           <div class="go-arrow">→</div>
