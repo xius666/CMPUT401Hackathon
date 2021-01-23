@@ -26,6 +26,16 @@ $ python manage.py migrate
 $ python manage.py runserver
 ```
 
+## API Document
+
+API is based on 
+* https://covid19-api.com/docs 
+* https://rapidapi.com/api-sports/api/covid-193
+
+## Deployment
+Use Hekoro to deploy the project
+TODO
+
 
 ## License
 TODO
