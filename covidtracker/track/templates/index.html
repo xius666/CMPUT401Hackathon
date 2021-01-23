@@ -16,11 +16,9 @@
     <form class="box">
       <select name="drop1">
         <option disable="true" , selected>---select a country---</option>
-        <option>Canada</option>
-        <option>China</option>
-        <option>America</option>
-        <option>India</option>
-        <option>France</option>
+        {% for c in country_list %}
+        <option>{{ c|slice:"1:-1" }}</option>
+        {% endfor %}
       </select>
       <input type="submit" value="click" />
     </form>
