@@ -6,13 +6,6 @@ import requests
 
 
 def base(request):
-    try:
-        country = request.GET['drop1']
-    except KeyError:
-        country = ""
-    if country == "---select a conntry---":
-        country = ""
-
     url = "https://covid-193.p.rapidapi.com/countries"
 
     headers = {
@@ -24,4 +17,4 @@ def base(request):
 
     countryList = list(response.text.split('[')[3].split(']')[0].split(','))
 
-    return render(request, 'index.html', {"country_list": countryList, "country":country})
+    return render(request, 'index.html', {"country_list": countryList})

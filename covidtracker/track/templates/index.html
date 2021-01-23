@@ -16,6 +16,9 @@
     function drop_down_onchange() {
       let country = document.getElementById('country_selection').value
       console.log(country)
+
+      document.getElementById('title_content').innerText = "COVID-19 LIVE NUMBER FOR " + country
+      
       let cards = document.getElementsByClassName('small')
       cards[0].innerText = 'Loading...'
       cards[1].innerText = 'Loading...'
@@ -66,7 +69,7 @@
   </script>
 
   <div class="title">
-    <h1>COVID-19 LIVE NUMBER FOR {{country}}</h1>
+    <h1 id = 'title_content'>COVID-19 LIVE NUMBER FOR Canada</h1>
   </div>
 
   <form class="box">
