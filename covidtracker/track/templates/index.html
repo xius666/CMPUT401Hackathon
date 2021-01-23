@@ -16,9 +16,9 @@
     function drop_down_onchange() {
       let country = document.getElementById('country_selection').value
       console.log(country)
-
       document.getElementById('title_content').innerText = "COVID-19 LIVE NUMBER FOR " + country
       
+      country = country.replaceAll('-','%20')
       let cards = document.getElementsByClassName('small')
       cards[0].innerText = 'Loading...'
       cards[1].innerText = 'Loading...'
