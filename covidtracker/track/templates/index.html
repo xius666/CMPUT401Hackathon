@@ -13,12 +13,12 @@
 
 <body>
   <script>
+    var test
     function drop_down_onchange() {
       let country = document.getElementById('country_selection').value
       console.log(country)
       document.getElementById('title_content').innerText = "COVID-19 LIVE NUMBER FOR " + country
-      
-      country = country.replaceAll('-','%20')
+
       let cards = document.getElementsByClassName('small')
       cards[0].innerText = 'Loading...'
       cards[1].innerText = 'Loading...'
@@ -32,19 +32,22 @@
     }
 
     function fetch_data_by_country(country) {
-      fetch("https://covid19-api.com/country?name=" + country + "&format=json", {
+      fetch("https://covid-193.p.rapidapi.com/statistics?country="+country, {
         "method": "GET",
         "headers": {
+          "x-rapidapi-key": "cf0cc6c39fmsh6978155cd15ca71p1c62bajsn4453d836d5f9",
+          "x-rapidapi-host": "covid-193.p.rapidapi.com"
         }
-      })
+        })
         .then(response => {
           response.json().then(data => {
-            console.log(data)
+            console.log(data.response)
+            test = data
             let cards = document.getElementsByClassName('small')
-            cards[0].innerText = data[0].confirmed
-            cards[1].innerText = data[0].critical
-            cards[2].innerText = data[0].deaths
-            cards[3].innerText = data[0].recovered
+            cards[0].innerText = data.response[0].cases.total
+            cards[1].innerText = data.response[0].cases.critical
+            cards[2].innerText = data.response[0].deaths.total
+            cards[3].innerText = data.response[0].cases.recovered
           })
         })
         .catch(err => {
@@ -69,7 +72,7 @@
   </script>
 
   <div class="title">
-    <h1 id = 'title_content'>COVID-19 LIVE NUMBER FOR Canada</h1>
+    <h1 id='title_content'>COVID-19 LIVE NUMBER FOR Canada</h1>
   </div>
 
   <form class="box">
