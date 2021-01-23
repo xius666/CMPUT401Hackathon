@@ -6,7 +6,7 @@ import requests
 
 
 def base(request):
-    url = "https://covid-193.p.rapidapi.com/countries"
+    url = "https://covid-193.p.rapidapi.com/statistics"
 
     headers = {
         'x-rapidapi-key': "cbef3ad3damsh177a38ec66e4f95p1a51f3jsne5512dc00c01",
@@ -15,6 +15,14 @@ def base(request):
 
     response = requests.request("GET", url, headers=headers)
 
-    countryList = list(response.text.split('[')[3].split(']')[0].split(','))
+    countryText = list(response.text.split('country\":')[1:])
+    countryList = list()
+
+    for text in countryText:
+        splitText = text.split('population')
+        if splitText[1][2] != 'n':
+            countryList.append(splitText[0][0:-2])
+
+    countryList.sort()
 
     return render(request, 'index.html', {"country_list": countryList})
