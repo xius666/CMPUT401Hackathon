@@ -1,6 +1,12 @@
 venv
 env
 
+# Database file
+*/db.sqlite3
+
+# Chache
+*.pyc
+*.pyo
 
 # MacOS layout file
 .DS_Store

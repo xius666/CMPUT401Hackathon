@@ -20,9 +20,12 @@ $ pip install -r requirements.txt
 ## Run
 
 ```
-cd covidtracker
-python manage.py runserver
+# Apply all migrations
+$ python manage.py migrate
+
+$ python manage.py runserver
 ```
+
 
 ## License
 TODO
