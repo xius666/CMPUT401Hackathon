@@ -10,7 +10,7 @@ def base(request):
         country = request.GET['drop1']
     except KeyError:
         country = ""
-    if country == "---select a country---":
+    if country == "---select a country---" or country == "":
         country = ""
         result = {'new': '', 'active': '', 'critical': '',
                   'recovered': '', '1M_pop': '', 'total': '', 'country': ''}
