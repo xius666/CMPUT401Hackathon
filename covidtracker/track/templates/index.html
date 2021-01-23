@@ -32,22 +32,22 @@
     }
 
     function fetch_data_by_country(country) {
-      fetch("https://covid-193.p.rapidapi.com/statistics?country="+country, {
+      fetch("https://covid-193.p.rapidapi.com/statistics?country=" + country, {
         "method": "GET",
         "headers": {
           "x-rapidapi-key": "cf0cc6c39fmsh6978155cd15ca71p1c62bajsn4453d836d5f9",
           "x-rapidapi-host": "covid-193.p.rapidapi.com"
         }
-        })
+      })
         .then(response => {
           response.json().then(data => {
             console.log(data.response)
             test = data
             let cards = document.getElementsByClassName('small')
-            cards[0].innerText = data.response[0].cases.total
-            cards[1].innerText = data.response[0].cases.critical
-            cards[2].innerText = data.response[0].deaths.total
-            cards[3].innerText = data.response[0].cases.recovered
+            cards[0].innerText = data.response[0].cases.total ? data.response[0].cases.total : 0
+            cards[1].innerText = data.response[0].cases.critical ? data.response[0].cases.critical : 0
+            cards[2].innerText = data.response[0].deaths.total ? data.response[0].deaths.total : 0
+            cards[3].innerText = data.response[0].cases.recovered ? data.response[0].cases.recovered : 0
           })
         })
         .catch(err => {
