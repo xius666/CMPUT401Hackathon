@@ -20,7 +20,7 @@ def base(request):
 
     for text in countryText:
         splitText = text.split('population')
-        if splitText[1][2] != 'n':
+        if splitText[1][2] != 'n' and 'ccedil' not in splitText[0][0:-2]:
             countryList.append(splitText[0][0:-2])
 
     countryList.sort()

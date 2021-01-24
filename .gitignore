@@ -11,3 +11,7 @@ env
 # MacOS layout file
 .DS_Store
 */.DS_Store
+
+
+# vscode
+.vscode

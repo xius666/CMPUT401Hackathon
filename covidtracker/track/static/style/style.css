@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
 
 * {
   transition: all 0.3s ease-out;
@@ -8,24 +7,6 @@
   width: 600px;
   margin-left: -100px;
   margin-top: 150px;
-}
-.title {
-  width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-html,
-.select {
-  width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-}
-html,
-body {
-  height: 100%;
-  font-family: "Nunito", sans-serif;
-  font-size: 18px;
 }
 
 .container {
