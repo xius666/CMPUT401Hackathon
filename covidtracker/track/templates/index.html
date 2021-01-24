@@ -2,120 +2,208 @@
 <!DOCTYPE html>
 
 <html lang="en">
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+    integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+    crossorigin="anonymous"
+  ></script>
+  <head>
+    <link rel="stylesheet" href="{% static 'style/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/select_box.css' %}" />
 
-<head>
-  <link rel="stylesheet" href="{% static 'style/style.css' %}" />
-  <link rel="stylesheet" href="{% static 'style/select_box.css' %}" />
+    <title>COVID-19 TRACKER</title>
+  </head>
+  <canvas id="myChart"></canvas>
 
+  <body>
+    <script>
+      let total = {};
+      const ctx = document.getElementById("myChart").getContext("2d");
 
-  <title>COVID-19 TRACKER</title>
-</head>
+      function drop_down_onchange() {
+        let country = document.getElementById("country_selection").value;
+        console.log(country);
 
-<body>
-  <script>
-    function drop_down_onchange() {
-      let country = document.getElementById('country_selection').value
-      console.log(country)
+        document.getElementById("title_content").innerText =
+          "COVID-19 LIVE NUMBER FOR " + country;
 
-      document.getElementById('title_content').innerText = "COVID-19 LIVE NUMBER FOR " + country
-      
-      let cards = document.getElementsByClassName('small')
-      cards[0].innerText = 'Loading...'
-      cards[1].innerText = 'Loading...'
-      cards[2].innerText = 'Loading...'
-      cards[3].innerText = 'Loading...'
+        let cards = document.getElementsByClassName("small");
+        cards[0].innerText = "Loading...";
+        cards[1].innerText = "Loading...";
+        cards[2].innerText = "Loading...";
+        cards[3].innerText = "Loading...";
 
-      country = (country === null
-        || country == '>---select a country---')
-        ? fetch_data_by_country('canada')
-        : fetch_data_by_country(country)
-    }
+        country =
+          country === null || country == ">---select a country---"
+            ? fetch_data_by_country("canada")
+            : fetch_data_by_country(country);
+        dates = [];
 
-    function fetch_data_by_country(country) {
-      fetch("https://covid19-api.com/country?name=" + country + "&format=json", {
-        "method": "GET",
-        "headers": {
+        for (i = 7; i > 0; i--) {
+          var current_date = new Date();
+          var pastDate = current_date.getDate() - i;
+          current_date.setDate(pastDate);
+          dates.push(current_date.toISOString().split("T")[0]);
         }
-      })
-        .then(response => {
-          response.json().then(data => {
-            console.log(data)
-            let cards = document.getElementsByClassName('small')
-            cards[0].innerText = data[0].confirmed
-            cards[1].innerText = data[0].critical
-            cards[2].innerText = data[0].deaths
-            cards[3].innerText = data[0].recovered
+        console.log(dates);
+        /*dates.forEach((date) => {
+          console.log(date);
+          country = document.getElementById("country_selection").value;
+          country =
+            country === null || country == ">---select a country---"
+              ? fetch_data_by_country_date("canada", date)
+              : fetch_data_by_country_date(country, date);
+        });*/
+        country = document.getElementById("country_selection").value;
+        country =
+          country === null || country == ">---select a country---"
+            ? fetch_data_by_country_date("Canada", dates)
+            : fetch_data_by_country_date(country, dates);
+      }
+      function fetch_data_by_country(country) {
+        fetch(
+          "https://covid19-api.com/country?name=" + country + "&format=json",
+          {
+            method: "GET",
+            headers: {},
+          }
+        )
+          .then((response) => {
+            response.json().then((data) => {
+              console.log(data);
+              let cards = document.getElementsByClassName("small");
+              cards[0].innerText = data[0].confirmed;
+              cards[1].innerText = data[0].critical;
+              cards[2].innerText = data[0].deaths;
+              cards[3].innerText = data[0].recovered;
+            });
           })
-        })
-        .catch(err => {
-          console.error(err);
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+      function fetch_data_by_country_date(country, dates) {
+        console.log(country, dates);
+        total = {};
+
+        const fetch1 = async (country, date) => {
+          await fetch(
+            "https://covid-193.p.rapidapi.com/history?country=" +
+              country +
+              "&day=" +
+              date,
+            {
+              method: "GET",
+              headers: {
+                "x-rapidapi-key":
+                  "1e2f4f94dbmsh9fc0dcd6b9a82fap1516edjsn402832e9ca33",
+                "x-rapidapi-host": "covid-193.p.rapidapi.com",
+              },
+            }
+          )
+            .then((response) => {
+              response.json().then((data) => {
+                console.log(data);
+                //total.push({ key: date, value: data["results"] });
+                total[date] = data["results"];
+              });
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+          plot();
+        };
+        dates.forEach((date) => {
+          console.log(total);
+          fetch1(country, date);
         });
-    }
+      }
 
-    // fetch("https://covid19-api.com/country/all?format=json", {
-    //   "method": "GET",
-    //   "headers": {
-    //   }
-    // })
-    //   .then(response => {
-    //     response.json().then(data => {
-    //       console.log(data)
-    //     })
-    //   })
-    //   .catch(err => {
-    //     console.error(err);
-    //   });
+      let my_chart;
 
-  </script>
+      function plot() {
+        if (my_chart) {
+          my_chart.destroy();
+        }
+        my_chart = new Chart(ctx, {
+          type: "line",
+          data: {
+            datasets: [
+              {
+                label: "New cases",
+                data: Object.values(total),
+                fill: false,
+                borderColor: "#FFF",
+                backgroundColor: "#FFF",
+                borderWidth: 1,
+              },
+            ],
+            labels: Object.keys(total),
+          },
+          options: {
+            responsive: false,
+            maintainAspectRation: false,
+          },
+        });
+      }
+    </script>
 
-  <div class="title">
-    <h1 id = 'title_content'>COVID-19 LIVE NUMBER FOR Canada</h1>
-  </div>
+    <div class="title">
+      <h1 id="title_content">COVID-19 LIVE NUMBER FOR Canada</h1>
+    </div>
 
-  <form class="box">
-    <select name="drop1" , onchange=drop_down_onchange() id="country_selection">
-      {% for c in country_list %}
-      <option>{{ c|slice:"1:-1" }}</option>
-      {% endfor %}
-    </select>
-  </form>
+    <form class="box">
+      <select
+        name="drop1"
+        ,
+        onchange="drop_down_onchange()"
+        id="country_selection"
+      >
+        {% for c in country_list %}
+        <option>{{ c|slice:"1:-1" }}</option>
+        {% endfor %}
+      </select>
+    </form>
 
-  <div class="container">
-    <a class="card1" href="https://www.cdc.gov/coronavirus/2019-nCoV/index.html">
-      <h3>Total Confirmed</h3>
-      <p class="small">Loading...</p>
-      <div class="go-corner" href="#">
-        <div class="go-arrow">→</div>
-      </div>
-    </a>
+    <div class="container">
+      <a
+        class="card1"
+        href="https://www.cdc.gov/coronavirus/2019-nCoV/index.html"
+      >
+        <h3>Total Confirmed</h3>
+        <p class="small">Loading...</p>
+        <div class="go-corner" href="#">
+          <div class="go-arrow">→</div>
+        </div>
+      </a>
 
-    <a class="card2" href="#">
-      <h3>Critical</h3>
-      <p class="small">Loading...</p>
-      <div class="go-corner" href="#">
-        <div class="go-arrow">→</div>
-      </div>
-    </a>
+      <a class="card2" href="#">
+        <h3>Critical</h3>
+        <p class="small">Loading...</p>
+        <div class="go-corner" href="#">
+          <div class="go-arrow">→</div>
+        </div>
+      </a>
 
-    <a class="card3" href="#">
-      <h3>Death</h3>
-      <p class="small">Loading...</p>
-      <div class="dimmer"></div>
-      <div class="go-corner" href="#">
-        <div class="go-arrow">→</div>
-      </div>
-    </a>
+      <a class="card3" href="#">
+        <h3>Death</h3>
+        <p class="small">Loading...</p>
+        <div class="dimmer"></div>
+        <div class="go-corner" href="#">
+          <div class="go-arrow">→</div>
+        </div>
+      </a>
 
-    <a class="card4" href="#">
-      <h3>Total Recovered</h3>
-      <p class="small">Loading...</p>
-      <div class="dimmer"></div>
-      <div class="go-corner" href="#">
-        <div class="go-arrow">→</div>
-      </div>
-    </a>
+      <a class="card4" href="#">
+        <h3>Total Recovered</h3>
+        <p class="small">Loading...</p>
+        <div class="dimmer"></div>
+        <div class="go-corner" href="#">
+          <div class="go-arrow">→</div>
+        </div>
+      </a>
 
-    <!-- <a class="card5" href="#">
+      <!-- <a class="card5" href="#">
       <h3>Recovered</h3>
       <p class="small">+100</p>
       <div class="dimmer"></div>
@@ -123,11 +211,12 @@
         <div class="go-arrow">→</div>
       </div>
     </a> -->
-  </div>
-  <script>
-    document.getElementById('country_selection').value = 'Canada'
-    drop_down_onchange()
-  </script>
-</body>
+    </div>
+    <script>
+      document.getElementById("country_selection").value = "Canada";
+      drop_down_onchange();
+    </script>
 
+    <script></script>
+  </body>
 </html>

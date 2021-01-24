@@ -11,7 +11,7 @@ def base(request):
     headers = {
         'x-rapidapi-key': "cbef3ad3damsh177a38ec66e4f95p1a51f3jsne5512dc00c01",
         'x-rapidapi-host': "covid-193.p.rapidapi.com"
-        }
+    }
 
     response = requests.request("GET", url, headers=headers)
 
