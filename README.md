@@ -1,8 +1,8 @@
 # CMPUT401Hackathon
 
-## Build requirements
-TODO
+## Demo
 
+https://infinite-thicket-76100.herokuapp.com/
 
 ## Build instructions
 
@@ -33,9 +33,11 @@ API is based on
 * https://rapidapi.com/api-sports/api/covid-193
 
 ## Deployment
-Use Hekoro to deploy the project
-TODO
 
+Use Heroko to deploy the project
+```
+git push heroko main
+```
 
 ## License
 TODO
